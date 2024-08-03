@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::table('authors', function (Blueprint $table) {
             $table->text('bio');
+            $table->string('avatar');
+            $table->date('birth_day');
+            $table->smallInteger('gender')->comment('AuthorGenderEnum')->index();
         });
     }
 

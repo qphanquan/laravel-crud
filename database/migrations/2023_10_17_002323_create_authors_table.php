@@ -17,11 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->timestamps();
+            // $table->dateTime('timecreate')->default(Db::raw('CURRENT_TIMESTAMP'))
         });
-        // Schema::table('authors', function (Blueprint $table) {
-        //     $table->string('bio');
-        //     $table->string('_token');
-        // });
     }
 
     /**

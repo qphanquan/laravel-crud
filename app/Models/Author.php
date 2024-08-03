@@ -12,6 +12,9 @@ class Author extends Model
         'id',
         'name',
         'bio',
+        'avatar',
+        'birth_day',
+        'gender',
         'updated_at',
         'created_at',
     ];

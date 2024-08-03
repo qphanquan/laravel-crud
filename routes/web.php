@@ -21,3 +21,8 @@ Route::get('/', function () {
 
 Route::resource('authors', AuthorController::class);
 Route::resource('books', BookController::class);
+
+// Route::middleware('authors')->group(function(){
+//     Route::get('create', [AuthorController::class, 'create']);
+//     Route::post('store', [AuthorController::class, 'store']);
+// });

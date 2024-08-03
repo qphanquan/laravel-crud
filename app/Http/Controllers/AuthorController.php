@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Enums\AuthorGenderEnum;
 
 class AuthorController extends Controller
 {
@@ -15,7 +16,8 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = Author::all();
+        // $authors = Author::all();
+        $authors = Author::orderBy('id', 'desc')->paginate(15);
         return  view('authors.index', compact('authors'));
     }
 
@@ -26,6 +28,7 @@ class AuthorController extends Controller
      */
     public function create()
     {
+        $arrGender = AuthorGenderEnum::class;
         return view('authors.create');
     }
 
@@ -37,16 +40,27 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'bio' => 'required',
-        ]);
+        // $request->validate([
+        //     'name' => 'required',
+        //     'bio' => 'required',
+        // ]);
+        // Author::create($request->all());
+
+        $author = new Author();
+        $author->name = $request->name;
+        $author->bio = $request->bio; // Giới thiệu bản thân
+        $file = $request->file('avatar');
+        //dd($file); // Dùng để test xem các thuộc tính
+        $file->move('images', $file->getClientOriginalName());
+        $author->avatar = $file->getClientOriginalName();
+        $author->birth_day = date('Y-m-d', strtotime($request->birth_day)); //date('Y-m-d H:i:s', strtotime($request->date));
+        $author->gender = $request->gender;
+        $author->save();
 
         // echo '<pre>';
         // print_r($request->all());
         // echo '</pre>';
 
-        Author::create($request->all());
         return redirect()->route('authors.index')->with('success', 'Author created successfully.');
     }
 
@@ -85,6 +99,13 @@ class AuthorController extends Controller
             'name' => 'required',
             'bio' => 'required',
         ]);
+
+        // $validatedData = $request->validate([
+        //     'username' => 'required|alpha|min:6|max:10',
+        //     'email' => 'required|email',
+        //     'password' => 'required|min:8',
+        //     'password_confirmation' => 'required|same:password',
+        // ]);
 
         $author->update($request->all());
         return redirect()->route('authors.index')

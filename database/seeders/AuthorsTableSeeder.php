@@ -24,6 +24,9 @@ class AuthorsTableSeeder extends Seeder
         for($i = 0; $i < 50; $i++){
             Author::create([
                 'name' => $faker->name,
+                'bio' => $faker->paragraph(4),
+                'avatar' => $faker->image(),
+                'gender' => $faker->randomElement([0 => 'male', 1 => 'female'])
             ]);
         }
     }
